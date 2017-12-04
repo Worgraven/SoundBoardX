@@ -6,93 +6,88 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.PowerManager;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.SearchView;
 import android.util.DisplayMetrics;
 import android.widget.TextView;
 
-import com.romainpiel.shimmer.ShimmerTextView;
+import com.github.clans.fab.FloatingActionButton;
+import com.hanks.htextview.base.HTextView;
 
-class Utils {
+import java.util.ArrayList;
 
-    private boolean  isPainted = false;
+abstract class Utils {
 
-    int getScreenWidth(Activity activity) {
+	static int getScreenWidth(Activity activity) {
         DisplayMetrics metrics = new DisplayMetrics();
         activity.getWindowManager().getDefaultDisplay().getMetrics(metrics);
         return metrics.widthPixels;
     }
 
-    int getSelectedColor() {
+    static int getSelectedColor() {
         return SharedPrefs.getInstance().getSelectedColor();
     }
 
-    void paintThis(TextView textView) {
-        if (!isPainted) {
-            isPainted = true;
-            textView.setTextColor(SharedPrefs.getInstance().getSelectedColor());
-        } else
-            textView.setTextColor(ContextCompat.getColor(textView.getContext(),
-                    R.color.lavaRed));
+    static ArrayList<Sound> getSelectedList(Context context, String name) {
+        switch (name) {
+			default:
+				break;
+            case "allSounds":
+				return SoundStore.getAllSounds(context);
+            case "funnySounds":
+				return SoundStore.getFunnySounds(context);
+            case "gamesSounds":
+				return SoundStore.getGamesSounds(context);
+            case "moviesSounds":
+				return SoundStore.getMoviesSounds(context);
+        }
+        return null;
     }
 
-    void paintThis(ShimmerTextView shimmerTextViewtextView) {
-        if (!isPainted) {
-            isPainted = true;
-            shimmerTextViewtextView.setTextColor(SharedPrefs.getInstance().getSelectedColor());
-        } else
-            shimmerTextViewtextView.setTextColor(ContextCompat.getColor(shimmerTextViewtextView.getContext(),
-                    R.color.lavaRed));
+	static void paintThis(TextView textView) {
+		textView.setTextColor(SharedPrefs.getInstance().getSelectedColor());
+	}
+
+	static void paintThis(HTextView hTextView) {
+		hTextView.setTextColor(SharedPrefs.getInstance().getSelectedColor());
+	}
+
+	static void paintThis(SearchView.SearchAutoComplete searchViewText) {
+        searchViewText.setTextColor(SharedPrefs.getInstance().getSelectedColor());
     }
 
-    void paintThis(SearchView.SearchAutoComplete searchViewText) {
-        if (!isPainted) {
-            isPainted = true;
-            searchViewText.setTextColor(SharedPrefs.getInstance().getSelectedColor());
-        } else
-            searchViewText.setTextColor(ContextCompat.getColor(searchViewText.getContext(),
-                    R.color.lavaRed));
+	static void paintThis(SoundAdapter.ViewHolder holder) {
+        holder.itemView.setBackgroundColor(SharedPrefs.getInstance().getSelectedColor());
     }
 
-    void paintThis(SoundAdapter.ViewHolder holder) {
-        if (!isPainted) {
-            isPainted = true;
-            holder.itemView.setBackgroundColor(SharedPrefs.getInstance().getSelectedColor());
-        } else
-            holder.itemView.setBackgroundColor(ContextCompat.getColor(holder.itemView.getContext(),
-                    R.color.lavaRed));
+	static void paintThis(FloatingActionButton fab) {
+		fab.setColorRipple(SharedPrefs.getInstance().getSelectedColor());
+	}
+
+	static void paintThis(android.support.v7.widget.Toolbar toolbar) {
+        //toolbar.setBackgroundColor(SharedPrefs.getInstance().getSelectedColor());
+		toolbar.setBackgroundColor(toolbar.getResources().getColor(R.color.colorPrimaryDarker));
     }
 
-    void paintThis(FloatingActionButton fab) {
-        if (!isPainted) {
-            isPainted = true;
-            fab.setRippleColor(SharedPrefs.getInstance().getSelectedColor());
-        } else
-            fab.setRippleColor(ContextCompat.getColor(fab.getContext(),
-                    R.color.lavaRed));
-    }
-
-    void initPaypal(Activity activity) {
+	static void initPaypal(Activity activity) {
         String url =
                 "https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=68KTBN3PE9U46";
         Intent intent = new Intent(Intent.ACTION_VIEW).setData((Uri.parse(url)));
         activity.startActivity(intent);
     }
 
-    void initYoutube(Activity activity) {
+	static void initYoutube(Activity activity) {
         String url = "https://www.youtube.com/subscription_center?add_user=TheToNouSou96";
         Intent intent = new Intent(Intent.ACTION_VIEW).setData((Uri.parse(url)));
         activity.startActivity(intent);
     }
 
-    void initGithub(Activity activity) {
+	static void initGithub(Activity activity) {
         String url = "https://github.com/xtonousou/xSoundBoardHD";
         Intent intent = new Intent(Intent.ACTION_VIEW).setData((Uri.parse(url)));
         activity.startActivity(intent);
     }
 
-    boolean isGreenMode(Activity activity) {
+	static boolean isGreenMode(Activity activity) {
         boolean mode = false;
         if ((Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) &&
                 ((PowerManager) activity.getSystemService(Context.POWER_SERVICE)).isPowerSaveMode()) {
@@ -101,7 +96,7 @@ class Utils {
         return mode;
     }
 
-    void restartActivity(Activity activity) {
+	static void restartActivity(Activity activity) {
         activity.finish();
         activity.startActivity(activity.getIntent());
     }

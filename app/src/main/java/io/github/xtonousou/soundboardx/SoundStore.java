@@ -24,24 +24,7 @@ abstract class SoundStore {
         allSounds.recycle();
         allSoundsIDs.recycle();
 
-        return sounds;
-    }
-
-    static ArrayList<Sound> getAnimalsSounds(Context context) {
-        Resources res = context.getApplicationContext().getResources();
-
-        TypedArray animalSounds = res.obtainTypedArray(R.array.animalSounds);
-        TypedArray animalSoundsIDs = res.obtainTypedArray(R.array.animalSoundsIDs);
-
-        ArrayList<Sound> sounds = new ArrayList<>();
-
-        final int animalSounds_length = animalSounds.length();
-        for (int i = 0; i < animalSounds_length; i++) {
-            sounds.add(new Sound(animalSounds.getString(i), animalSoundsIDs.getResourceId(i, -1)));
-        }
-
-        animalSounds.recycle();
-        animalSoundsIDs.recycle();
+        SharedPrefs.getInstance().setSelectedList("allSounds");
 
         return sounds;
     }
@@ -62,6 +45,8 @@ abstract class SoundStore {
         funnySounds.recycle();
         funnySoundsIDs.recycle();
 
+        SharedPrefs.getInstance().setSelectedList("funnySounds");
+
         return sounds;
     }
 
@@ -80,6 +65,8 @@ abstract class SoundStore {
 
         gamesSounds.recycle();
         gamesSoundsIDs.recycle();
+
+        SharedPrefs.getInstance().setSelectedList("gamesSounds");
 
         return sounds;
     }
@@ -100,43 +87,7 @@ abstract class SoundStore {
         moviesSounds.recycle();
         moviesSoundsIDs.recycle();
 
-        return sounds;
-    }
-
-    static ArrayList<Sound> getNSFWSounds(Context context) {
-        Resources res = context.getApplicationContext().getResources();
-
-        TypedArray nsfwSounds = res.obtainTypedArray(R.array.nsfwSounds);
-        TypedArray nsfwSoundsIDs = res.obtainTypedArray(R.array.nsfwSoundsIDs);
-
-        ArrayList<Sound> sounds = new ArrayList<>();
-
-        final int nsfwSounds_length = nsfwSounds.length();
-        for (int i = 0; i < nsfwSounds_length; i++) {
-            sounds.add(new Sound(nsfwSounds.getString(i), nsfwSoundsIDs.getResourceId(i, -1)));
-        }
-
-        nsfwSounds.recycle();
-        nsfwSoundsIDs.recycle();
-
-        return sounds;
-    }
-
-    static ArrayList<Sound> getPersonalSounds(Context context) {
-        Resources res = context.getApplicationContext().getResources();
-
-        TypedArray personalSounds = res.obtainTypedArray(R.array.personalSounds);
-        TypedArray personalSoundsIDs = res.obtainTypedArray(R.array.personalSoundsIDs);
-
-        ArrayList<Sound> sounds = new ArrayList<>();
-
-        final int personalSounds_length = personalSounds.length();
-        for (int i = 0; i < personalSounds_length; i++) {
-            sounds.add(new Sound(personalSounds.getString(i), personalSoundsIDs.getResourceId(i, -1)));
-        }
-
-        personalSounds.recycle();
-        personalSoundsIDs.recycle();
+        SharedPrefs.getInstance().setSelectedList("moviesSounds");
 
         return sounds;
     }
